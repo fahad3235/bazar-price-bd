@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazar Price BD - Daily Grocery Price Tracker</title>
+<meta name="description" content="Offline bilingual (EN/Bangla) daily bazar grocery price tracker for Bangladesh.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="loading" class="loading">Loading...</div>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">&#x9F3;</span>
+    <div>
+      <h1>Bazar Price BD</h1>
+      <p class="tagline" data-i18n="tagline">Track your daily bazar prices</p>
+    </div>
+  </div>
+  <button id="langToggle" class="btn lang" type="button" aria-label="Toggle language">BN</button>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button data-tab="dashboard" class="tab active" type="button" data-i18n="dashboard">Dashboard</button>
+  <button data-tab="log" class="tab" type="button" data-i18n="logTab">Log Price</button>
+  <button data-tab="items" class="tab" type="button" data-i18n="items">Items</button>
+  <button data-tab="history" class="tab" type="button" data-i18n="history">History</button>
+  <button data-tab="backup" class="tab" type="button" data-i18n="backup">Backup</button>
+</nav>
+
+<main>
+  <section id="tab-dashboard" class="panel">
+    <div class="winrow">
+      <label class="winlabel" for="dashWin"><span data-i18n="trend">Price trend</span>:</label>
+      <select id="dashWin">
+        <option value="7" data-i18n="win7">7 days</option>
+        <option value="30" data-i18n="win30">30 days</option>
+      </select>
+    </div>
+    <div id="dashCards" class="cards"></div>
+  </section>
+
+  <section id="tab-log" class="panel" hidden>
+    <form id="logForm" class="form" novalidate>
+      <label><span data-i18n="items">Items</span>
+        <select id="logItem"></select>
+      </label>
+      <label><span data-i18n="price">Price</span> (&#x9F3;)
+        <input id="logPrice" inputmode="decimal" autocomplete="off" data-i18n-ph="price" placeholder="Price">
+      </label>
+      <label><span data-i18n="date">Date</span>
+        <input id="logDate" type="date">
+      </label>
+      <label><span data-i18n="note">Vendor note (optional)</span>
+        <input id="logNote" type="text" maxlength="120" autocomplete="off">
+      </label>
+      <p id="logErr" class="msg err" hidden></p>
+      <p id="logOk" class="msg ok" hidden></p>
+      <button class="btn primary" type="submit" data-i18n="logPrice">Save price</button>
+    </form>
+  </section>
+
+  <section id="tab-items" class="panel" hidden>
+    <form id="itemForm" class="form inline" novalidate>
+      <label><span data-i18n="itemName">Item name</span>
+        <input id="itemName" type="text" list="suggestList" maxlength="80" autocomplete="off" data-i18n-ph="itemName" placeholder="Item name">
+        <datalist id="suggestList"></datalist>
+      </label>
+      <label><span data-i18n="unit">Unit</span>
+        <select id="itemUnit"></select>
+      </label>
+      <button class="btn primary" type="submit" data-i18n="addItem">Add item</button>
+    </form>
+    <p id="itemErr" class="msg err" hidden></p>
+    <p id="itemOk" class="msg ok" hidden></p>
+    <ul id="itemList" class="itemlist"></ul>
+  </section>
+
+  <section id="tab-history" class="panel" hidden>
+    <div class="winrow">
+      <select id="histFilter" aria-label="Filter by item"></select>
+    </div>
+    <p id="histEmpty" class="empty" data-i18n="noHistory" hidden>No price records yet.</p>
+    <div class="tablewrap">
+      <table id="histTable">
+        <thead><tr>
+          <th data-i18n="date">Date</th><th data-i18n="items">Items</th>
+          <th data-i18n="price">Price</th><th data-i18n="note">Vendor note (optional)</th>
+          <th data-i18n="actions">Actions</th>
+        </tr></thead>
+        <tbody id="histBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tab-backup" class="panel" hidden>
+    <h2 data-i18n="exportBtn">Export JSON</h2>
+    <div class="btnrow">
+      <button id="expBtn" class="btn" type="button" data-i18n="exportBtn">Export JSON</button>
+      <button id="copyBtn" class="btn" type="button" data-i18n="copyJson">Copy</button>
+    </div>
+    <p id="copyOk" class="msg ok" hidden></p>
+    <textarea id="expOut" rows="6" readonly aria-label="Exported JSON"></textarea>
+    <h2 data-i18n="importBtn">Import JSON</h2>
+    <textarea id="impIn" rows="6" aria-label="Import JSON"></textarea>
+    <div class="btnrow">
+      <button id="impBtn" class="btn primary" type="button" data-i18n="importBtn">Import JSON</button>
+    </div>
+    <p id="impMsg" class="msg" hidden></p>
+  </section>
+</main>
+
+<footer class="foot">
+  <p data-i18n="footer">Personal price tracker. Your own records - not market data, not financial advice. Works fully offline in your browser.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
